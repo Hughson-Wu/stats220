@@ -20,4 +20,5 @@ This is my repo for STATS 220.
 2. [R-bloggers](https://www.r-bloggers.com/)
 
 ### MEME
-A Beatles walking animated GIF [![Beatles](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWswMDdhNzRqc2ZwNWw1anhtcHY5MHR5bDMwdDVkY3I4c2c2bW1uNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QpWDP1YMziaQw/giphy.gif)]
+A Beatles walking animated GIF 
+![Beatles](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWswMDdhNzRqc2ZwNWw1anhtcHY5MHR5bDMwdDVkY3I4c2c2bW1uNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QpWDP1YMziaQw/giphy.gif)
