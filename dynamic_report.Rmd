@@ -16,10 +16,9 @@ h2 {
 
 ## Uber Eats Delivery Tracker
 
-This report shows trends from my Uber Eats orders (24 total) between March 26 and April 2, 2025.
+This report shows trends from my Uber Eats orders.
 
-## What is the delivery time?
-
+## Number of Orders
 ```{r}
 library(tidyverse)
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRESDrweB7n55EdzKdF6UJ71c5i1-VrxLFLWK8gl1wZ3HJ75okT3YhjFLxTrGXUjs4UssSp1lldBjzw/pub?output=csv")
@@ -31,6 +30,32 @@ latest_data <- logged_data %>%
       food_category = "What category best describes the food you ordered?",
       cost = "What was the total order cost (in dollars, excluding tip and delivery fees)?"
     )
+
+plot1 <- latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = food_category), fill = "orange") +
+  labs(
+    title = "Number of Orders by Food Category",
+    x = "Food Category",
+    y = "Number of Orders")
+plot1
+
+category_counts <- latest_data %>%
+  group_by(food_category) %>%
+  summarise(count = n())
+
+```
+
+# Number of Orders by Food Category
+
+Here is the number of orders by food category 
+```{r}
+knitr::kable(category_counts, col.names = c("Food Category", "Number of Orders"))
+```
+## What is the delivery time?
+
+```{r}
+
 
 
 plot2 <- latest_data %>%
@@ -45,8 +70,12 @@ plot2 <- latest_data %>%
 plot2
 ```
 
-# Summary of delivery time on different food
-The Average delivery time is 24.5 minutes, Italian food has the longest average delivery time about 30 minutes; other category is about the same around 21 to 25 minutes.
+
+```{r}
+average_delivery <- mean(latest_data$delivery_time, na.rm = TRUE)
+```
+# The Average delivery time
+My orders took an average of `r round(average_delivery, 1)` minutes to deliver
 
 ## How much did I spend?
 
@@ -63,17 +92,11 @@ plot3 <- latest_data %>%
     y = "Total Food Cost ($)")
 plot3
 
-plot1 <- latest_data %>%
-  ggplot() +
-  geom_bar(aes(x = food_category), fill = "orange") +
-  labs(
-    title = "Number of Orders by Food Category",
-    x = "Food Category",
-    y = "Number of Orders")
-plot1
+mean_cost <- mean(latest_data$cost, na.rm = TRUE)
+total_cost <- sum(latest_data$cost, na.rm = TRUE)
 ```
 
 # Summary of the money I spend on
-The total food costs is 570 dollars (very expensive), Fast food is the most expensive and is twice as much as Asian and italian food, dessert is the cheapest. I order same amount of times for Asian and Fast Food, same amount of times for dessert and italian. We can say I spend twice as much as money on Fast food than Asian food and twice as much as money on italian than dessert.
+I spend  `r round(total_cost, 2)` dollars total and average `r round(mean_cost, 2)` dollars on uber eats
 
 
