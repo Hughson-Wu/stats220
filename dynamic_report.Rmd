@@ -1,0 +1,79 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+h2 {
+  color: Blue;
+}
+```
+
+## Uber Eats Delivery Tracker
+
+This report shows trends from my Uber Eats orders (24 total) between March 26 and April 2, 2025.
+
+## What is the delivery time?
+
+```{r}
+library(tidyverse)
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRESDrweB7n55EdzKdF6UJ71c5i1-VrxLFLWK8gl1wZ3HJ75okT3YhjFLxTrGXUjs4UssSp1lldBjzw/pub?output=csv")
+
+latest_data <- logged_data %>%
+    rename(
+      timestamp = "Timestamp",
+      delivery_time = "How many minutes did the delivery take from order confirmation to arrival?",
+      food_category = "What category best describes the food you ordered?",
+      cost = "What was the total order cost (in dollars, excluding tip and delivery fees)?"
+    )
+
+
+plot2 <- latest_data %>%
+  group_by(food_category) %>%
+  summarise(average_delivery = mean(delivery_time, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_bar(aes(x = food_category, y = average_delivery), stat = "identity", fill = "lightblue") +
+  labs(
+    title = "Average Delivery Time by Food Category",
+    x = "Food Category",
+    y = "Average Delivery Time (minutes)")
+plot2
+```
+
+# Summary of delivery time on different food
+The Average delivery time is 24.5 minutes, Italian food has the longest average delivery time about 30 minutes; other category is about the same around 21 to 25 minutes.
+
+## How much did I spend?
+
+```{r}
+
+plot3 <- latest_data %>%
+  group_by(food_category) %>%
+  summarise(total_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_bar(aes(x = food_category, y = total_cost), stat = "identity", fill = "lightgreen") +
+  labs(
+    title = "Total Food Cost by Food Category",
+    x = "Food Category",
+    y = "Total Food Cost ($)")
+plot3
+
+plot1 <- latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = food_category), fill = "orange") +
+  labs(
+    title = "Number of Orders by Food Category",
+    x = "Food Category",
+    y = "Number of Orders")
+plot1
+```
+
+# Summary of the money I spend on
+The total food costs is 570 dollars (very expensive), Fast food is the most expensive and is twice as much as Asian and italian food, dessert is the cheapest. I order same amount of times for Asian and Fast Food, same amount of times for dessert and italian. We can say I spend twice as much as money on Fast food than Asian food and twice as much as money on italian than dessert.
+
+
